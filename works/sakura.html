@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>桜色の紙飛行機</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Shippori+Mincho+B1:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* 卒業式前日の黒板。チョークの字と、桜色の紙飛行機が一機だけ */
+  --board:#2c4a3d;
+  --board-2:#25403a;
+  --chalk:#efede6;
+  --chalk-soft:#b9c4bc;
+  --sakura:#eab3bf;
+  --wood:#8a6a4a;
+  --hand:"Klee One","Hiragino Maru Gothic ProN",cursive;
+  --display:"Shippori Mincho B1","Hiragino Mincho ProN",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--board);color:var(--chalk);font-family:var(--body);font-size:15px;line-height:2.05;letter-spacing:.04em;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background-image:radial-gradient(ellipse at 30% 20%,rgba(255,255,255,.05),transparent 60%),radial-gradient(ellipse at 80% 70%,rgba(255,255,255,.035),transparent 55%)}
+a{color:inherit}
+a:focus-visible{outline:2px dashed var(--sakura);outline-offset:4px}
+
+#petals{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.plane{position:fixed;left:0;top:0;width:64px;height:40px;z-index:6;pointer-events:none;will-change:transform}
+
+.page{position:relative;z-index:1}
+.back{position:absolute;top:22px;left:clamp(24px,8vw,120px);font-size:12px;letter-spacing:.2em;text-decoration:none;opacity:.8}
+
+/* 黒板の右端：日直欄 */
+.duty{position:fixed;right:clamp(12px,3vw,30px);top:72px;z-index:5;writing-mode:vertical-rl;font-family:var(--hand);font-size:14px;line-height:1.9;color:var(--chalk-soft);border-inline-start:1px solid rgba(239,237,230,.3);padding-inline-start:8px}
+.duty b{font-weight:600;font-size:22px;color:var(--chalk);text-combine-upright:all}
+
+.hero{padding:104px clamp(28px,9vw,140px) 80px;display:flex;flex-direction:column;gap:28px;max-width:62em}
+.chalk-date{font-family:var(--hand);font-size:14px;color:var(--chalk-soft);letter-spacing:.2em}
+.title{font-family:var(--hand);font-weight:600;font-size:clamp(44px,9vw,96px);line-height:1.25;letter-spacing:.06em}
+.title .s{color:var(--sakura)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12px;letter-spacing:.15em;color:var(--chalk-soft)}
+.lead{font-family:var(--display);font-size:clamp(17px,2.2vw,20px);line-height:2.2;max-width:26em}
+.ledge{height:14px;background:var(--wood);box-shadow:0 4px 0 rgba(0,0,0,.25);margin:0 0 0;position:relative}
+.ledge::before{content:"";position:absolute;left:12%;top:-6px;width:46px;height:8px;background:var(--chalk);border-radius:2px}
+.ledge::after{content:"";position:absolute;left:calc(12% + 58px);top:-6px;width:30px;height:8px;background:var(--sakura);border-radius:2px}
+
+section{padding:88px clamp(28px,9vw,140px)}
+h2{font-family:var(--hand);font-weight:600;font-size:26px;letter-spacing:.12em;margin-bottom:36px;display:inline-block;border-bottom:2px solid var(--chalk);padding-bottom:4px}
+.story p{max-width:34em;margin-bottom:1.4em}
+.story .tag{display:inline-block;font-size:12px;color:var(--chalk-soft);border:1px solid rgba(239,237,230,.35);padding:2px 12px;letter-spacing:.12em}
+
+.people{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px;max-width:52em}
+.person{display:flex;gap:18px;align-items:flex-start}
+.person .n{font-family:var(--hand);font-weight:600;font-size:40px;line-height:1;writing-mode:vertical-rl;color:var(--sakura)}
+.person .r{font-size:11px;letter-spacing:.2em;color:var(--chalk-soft)}
+.person p{font-size:14px}
+
+/* 目次：卒業前日から旅立ちまでの41話 */
+.toc{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:0 32px;max-width:60em;counter-reset:none}
+.toc li{list-style:none;display:flex;gap:12px;padding:9px 0;border-bottom:1px dashed rgba(239,237,230,.2);font-family:var(--hand);font-size:15px}
+.toc li .no{min-width:2.4em;color:var(--chalk-soft);font-size:12px;padding-top:3px;font-variant-numeric:tabular-nums}
+.toc li.mark{color:var(--sakura)}
+.cap{margin-top:16px;font-size:12px;color:var(--chalk-soft)}
+
+.read{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.btn{display:inline-flex;gap:14px;align-items:center;padding:16px 30px;background:var(--sakura);color:#2a2a2a;text-decoration:none;font-family:var(--hand);font-weight:600;font-size:18px;letter-spacing:.1em;transform:rotate(-1deg);transition:transform .3s}
+.btn:hover,.btn:focus-visible{transform:rotate(0) translateY(-2px)}
+.read p{font-size:12px;color:var(--chalk-soft)}
+footer{padding:48px clamp(28px,9vw,140px) 72px;font-size:12px;color:var(--chalk-soft);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer a{text-decoration:none}
+
+@media (max-width:640px){.duty{display:none}}
+@media (prefers-reduced-motion:reduce){.plane{display:none}}
+</style>
+</head>
+<body>
+<canvas id="petals" aria-hidden="true"></canvas>
+<svg class="plane" id="plane" viewBox="0 0 64 40" aria-hidden="true">
+  <path d="M2 20 L62 4 L30 24 Z" fill="#eab3bf"/>
+  <path d="M30 24 L62 4 L40 36 Z" fill="#d993a3"/>
+  <path d="M2 20 L30 24 L26 30 Z" fill="#c98292"/>
+</svg>
+<div class="duty" aria-hidden="true">卒業式まで　あと<b id="left">29</b>話</div>
+
+<div class="page">
+  <a class="back" href="../index.html">柿原凛　作品一覧へ</a>
+
+  <header class="hero">
+    <p class="chalk-date">卒業式　前日</p>
+    <h1 class="title"><span class="s">桜色</span>の<br>紙飛行機</h1>
+    <p class="meta"><span>現実世界〔恋愛〕</span><span>全41話・完結</span><span>加筆修正リメイク版</span></p>
+    <p class="lead">十年ぶりに母校の前に立って、<br>あの日の幼なじみが、ただの幼なじみではなかったと知る。</p>
+  </header>
+  <div class="ledge" aria-hidden="true"></div>
+
+  <section class="story" aria-labelledby="h1">
+    <h2 id="h1">あらすじ</h2>
+    <p>母校の前で、「俺」は十年前の卒業式を思い出す。そして、あのころの幼なじみが、ただの幼なじみではなかったことに気づく。</p>
+    <p>卒業までに、やり残したことを片づけなければならない。そう感じた俺は、卒業式の前の晩に思い切った行動に出る。そして迎えた卒業式の日、俺は桜色の紙飛行機をひらく。</p>
+    <p><span class="tag">第二回初恋企画　参加作品</span></p>
+  </section>
+
+  <section aria-labelledby="h2">
+    <h2 id="h2">登場人物</h2>
+    <div class="people">
+      <div class="person"><span class="n">俺</span><div><span class="r">語り手・高校三年生</span><p>卒業を目前にして、言えずにいたことと向き合う。</p></div></div>
+      <div class="person"><span class="n">梓</span><div><span class="r">幼なじみ</span><p>いちばん近くにいたのに、いちばん分かっていなかった人。</p></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h3">
+    <h2 id="h3">目次</h2>
+    <ul class="toc" id="toc"></ul>
+    <p class="cap">桜色の文字は、卒業式の日からあとの話です。</p>
+  </section>
+
+  <section class="read" aria-labelledby="h4">
+    <h2 id="h4">読む</h2>
+    <a class="btn" href="https://ncode.syosetu.com/n4299fk/">小説家になろうで読む</a>
+    <p>全41話・約200分で読めます</p>
+  </section>
+
+  <footer><a href="../index.html">柿原凛</a><span>春風に吹かれて</span></footer>
+</div>
+
+<script>
+(function(){
+  var eps=["プロローグ","卒業前日","幼馴染","梓の過去","俺の過去","前夜祭","三角形","天体観測","嵐の前","修学旅行","ラジオ","深夜徘徊","蛇行運転","花菱草","新曲","詰めが甘い","もしもの話","商店街","CD買いたい","ダンボール","花言葉","旅立ちの朝","卒業ってなんだ","呼び出し","集団連行","進路","秘密","水泳事件","最後の漫才","卒業式","短い挨拶","スペシャルゲスト","ノスタルジックメモリー","最後のホームルーム","クライマックスへ","春風に吹かれて","桜舞い散る","告白","見送り","桜色の紙飛行機","エピローグ"];
+  var ul=document.getElementById('toc');
+  eps.forEach(function(t,i){
+    var li=document.createElement('li');
+    var no=i===0?'序':(i===eps.length-1?'終':String(i));
+    li.innerHTML='<span class="no">'+no+'</span><span>'+t+'</span>';
+    if(i>=29) li.className='mark';
+    ul.appendChild(li);
+  });
+
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var plane=document.getElementById('plane'),left=document.getElementById('left');
+  function fly(){
+    var max=document.documentElement.scrollHeight-innerHeight;
+    var p=max>0?Math.min(scrollY/max,1):0;
+    left.textContent=Math.max(0,29-Math.floor(p*eps.length));
+    if(reduce) return;
+    // 紙飛行機はスクロールにあわせて、左上から右下へゆるく波打ちながら渡っていく
+    var x=-80+p*(innerWidth+160);
+    var y=innerHeight*(.18+.55*p)+Math.sin(p*Math.PI*3)*innerHeight*.08;
+    var a=Math.cos(p*Math.PI*3)*14+8;
+    plane.style.transform='translate('+x+'px,'+y+'px) rotate('+a+'deg)';
+  }
+  addEventListener('scroll',fly,{passive:true});addEventListener('resize',fly);fly();
+
+  var c=document.getElementById('petals'),g=c.getContext('2d'),ps=[];
+  function size(){c.width=innerWidth*devicePixelRatio;c.height=innerHeight*devicePixelRatio;}
+  size();addEventListener('resize',size);
+  for(var i=0;i<22;i++)ps.push({x:Math.random(),y:Math.random(),s:3+Math.random()*4,v:.0006+Math.random()*.0012,r:Math.random()*6.28,d:Math.random()*.02});
+  var lastY=scrollY;
+  function draw(){
+    var w=c.width,h=c.height,dy=(scrollY-lastY)/innerHeight;lastY=scrollY;
+    g.clearRect(0,0,w,h);
+    ps.forEach(function(p){
+      p.y+=p.v+dy*.25;p.x+=Math.sin(p.r)*.0006;p.r+=p.d;
+      if(p.y>1.05){p.y=-.05;p.x=Math.random();}
+      if(p.y<-.06)p.y=1.04;
+      g.save();g.translate(p.x*w,p.y*h);g.rotate(p.r);
+      g.fillStyle='rgba(234,179,191,.55)';
+      g.beginPath();g.ellipse(0,0,p.s*devicePixelRatio,p.s*.6*devicePixelRatio,0,0,6.28);g.fill();g.restore();
+    });
+    if(!reduce)requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>

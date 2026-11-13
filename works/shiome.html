@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>藍色の汐目で、しゃあしい君にさよならを</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* 夜の周防灘。スクロールに合わせて潮が満ちてくる */
+  --night:#0f1a2c;
+  --deep:#1b2d4a;
+  --ai:#2f5d8a;
+  --shio:#7fb3cf;
+  --foam:#e6eef3;
+  --oyster:#c9b99a;
+  --display:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--night);color:var(--foam);font-family:var(--body);font-size:15px;line-height:2.05;letter-spacing:.04em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+a:focus-visible{outline:2px solid var(--shio);outline-offset:4px}
+
+/* 潮：画面の下から満ちてくる水面 */
+.tide{position:fixed;left:0;right:0;bottom:0;height:12vh;pointer-events:none;z-index:0;
+  background:linear-gradient(180deg,rgba(127,179,207,.28),rgba(47,93,138,.55) 30%,rgba(27,45,74,.9));transition:height .25s linear}
+.tide canvas{position:absolute;left:0;top:-14px;width:100%;height:28px}
+.gauge{position:fixed;left:clamp(10px,3vw,28px);top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:10px;letter-spacing:.2em;color:var(--shio)}
+.gauge .bar{width:2px;height:160px;background:rgba(127,179,207,.25);position:relative}
+.gauge .lv{position:absolute;bottom:0;left:-3px;width:8px;height:2px;background:var(--foam)}
+.gauge .v{writing-mode:vertical-rl;font-variant-numeric:tabular-nums}
+
+.page{position:relative;z-index:1}
+.back{position:absolute;top:22px;left:clamp(24px,8vw,120px);font-size:12px;letter-spacing:.2em;text-decoration:none;opacity:.8}
+
+.hero{padding:96px clamp(40px,10vw,140px) 72px;display:grid;grid-template-columns:auto 1fr;gap:clamp(28px,6vw,80px);align-items:start}
+.title{writing-mode:vertical-rl;font-family:var(--display);font-weight:800;font-size:clamp(30px,5.4vw,52px);line-height:1.5;letter-spacing:.12em;height:min(560px,70vh)}
+.title .l2{font-weight:600;color:var(--shio);margin-inline-start:.4em}
+.hero-side{align-self:end;display:flex;flex-direction:column;gap:20px;max-width:30em}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12px;letter-spacing:.15em;color:var(--shio)}
+.lead{font-family:var(--display);font-size:clamp(17px,2.2vw,20px);line-height:2.2}
+
+section{padding:88px clamp(40px,10vw,140px);border-top:1px solid rgba(127,179,207,.18)}
+h2{font-family:var(--display);font-weight:600;font-size:24px;letter-spacing:.14em;margin-bottom:36px;display:flex;gap:16px;align-items:baseline}
+h2 small{font-family:var(--body);font-size:11px;letter-spacing:.3em;color:var(--shio);font-weight:400}
+.story p{max-width:34em;margin-bottom:1.4em}
+
+.people{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.person{border:1px solid rgba(127,179,207,.3);padding:26px 22px;display:flex;flex-direction:column;gap:10px;background:rgba(15,26,44,.55);backdrop-filter:blur(2px)}
+.person .n{font-family:var(--display);font-size:26px;font-weight:800;letter-spacing:.1em}
+.person .r{font-size:11px;letter-spacing:.2em;color:var(--shio)}
+.person p{font-size:13.5px}
+
+/* 潮見表ふうの目次 */
+.table{width:100%;border-collapse:collapse;font-size:14px;max-width:44em}
+.table th{font-weight:400;font-size:11px;letter-spacing:.25em;color:var(--shio);text-align:left;padding:0 0 12px;border-bottom:1px solid rgba(127,179,207,.4)}
+.table td{padding:13px 0;border-bottom:1px solid rgba(127,179,207,.14);vertical-align:middle}
+.table td.no{width:4.2em;font-variant-numeric:tabular-nums;color:var(--shio);font-size:12px}
+.table td.t{font-family:var(--display);font-size:16px}
+.table td.lvl{width:30%}
+.lvl i{display:block;height:4px;background:linear-gradient(90deg,var(--ai),var(--shio));border-radius:2px}
+.cap{margin-top:14px;font-size:12px;color:var(--shio);max-width:44em}
+
+.read{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.read a.btn{display:inline-flex;gap:14px;align-items:center;padding:16px 28px;border:1px solid var(--foam);text-decoration:none;font-family:var(--display);font-size:17px;letter-spacing:.12em;transition:background .3s,color .3s}
+.read a.btn:hover,.read a.btn:focus-visible{background:var(--foam);color:var(--night)}
+.read p{font-size:12px;color:var(--shio)}
+footer{padding:48px clamp(40px,10vw,140px) 18vh;font-size:12px;color:var(--shio);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer a{text-decoration:none}
+
+@media (max-width:640px){
+  .hero{grid-template-columns:1fr;padding-top:80px}
+  .title{height:auto;max-height:440px;justify-self:end}
+  .gauge{display:none}
+}
+@media (prefers-reduced-motion:reduce){.tide{transition:none}}
+</style>
+</head>
+<body>
+<div class="tide" id="tide" aria-hidden="true"><canvas id="wave"></canvas></div>
+<div class="gauge" aria-hidden="true"><span>満</span><div class="bar"><span class="lv" id="lv"></span></div><span>干</span><span class="v" id="lvv">潮位 0</span></div>
+
+<div class="page">
+  <a class="back" href="../index.html">柿原凛　作品一覧へ</a>
+
+  <header class="hero">
+    <h1 class="title"><span>藍色の汐目で、</span><span class="l2">しゃあしい君にさよならを</span></h1>
+    <div class="hero-side">
+      <p class="meta"><span>ヒューマンドラマ〔文芸〕</span><span>全14話・完結</span><span>115,553字</span></p>
+      <p class="lead">潮が満ちれば、彼女は変わる。<br>引いてゆく海のほうに、<br>僕のまだ知らない心があった。</p>
+    </div>
+  </header>
+
+  <section class="story" aria-labelledby="h1">
+    <h2 id="h1">あらすじ<small>Story</small></h2>
+    <p>福岡県行橋市。年の瀬の牡蠣小屋で、高校生の睦は青い目をした少女・長野汐と出会う。汐は、潮の満ち引きにあわせて様子が変わってしまう不思議な少女だった。</p>
+    <p>彼女に惹かれた睦は、汐が先頭に立つ潮力発電所の建設反対運動に加わっていく。開発の波が押し寄せるにつれ、汐の変化はしだいに大きくなる。幼なじみの穂香に支えられ、見守られながら、睦は汐の秘密に近づこうとする。それは、自分自身の気持ちと向き合うことでもあった。</p>
+  </section>
+
+  <section aria-labelledby="h2">
+    <h2 id="h2">登場人物<small>Characters</small></h2>
+    <div class="people">
+      <div class="person"><span class="r">高校生</span><span class="n">睦</span><p>汐に惹かれ、潮力発電所への反対運動に加わる。自分の心の行き先を、まだ知らない。</p></div>
+      <div class="person"><span class="r">青い目の少女</span><span class="n">長野 汐</span><p>反対運動を率いる少女。潮が満ち、潮が引くたびに、別の顔を見せる。</p></div>
+      <div class="person"><span class="r">幼なじみ</span><span class="n">穂香</span><p>睦のそばで、ふたりの行方を見守りつづける。</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h3">
+    <h2 id="h3">目次<small>Tide Table</small></h2>
+    <table class="table">
+      <thead><tr><th>話</th><th>題</th><th>物語の進み</th></tr></thead>
+      <tbody id="toc"></tbody>
+    </table>
+    <p class="cap">右の線は、全話のうちどこまで読み進んだかを示しています。</p>
+  </section>
+
+  <section class="read" aria-labelledby="h4">
+    <h2 id="h4">読む<small>Read</small></h2>
+    <a class="btn" href="https://ncode.syosetu.com/n4963jx/">小説家になろうで読む</a>
+    <p>全14話・約232分で読めます</p>
+  </section>
+
+  <footer><a href="../index.html">柿原凛</a><span>潮満ちて</span></footer>
+</div>
+
+<script>
+(function(){
+  var eps=["灰色の祈り","満ち引く再会","満潮は桜色","引き潮の真実","寄せる波−1","寄せる波−2","変わりゆく潮流−1","変わりゆく潮流−2","重なる海影","藍色の汐目−1","藍色の汐目−2","藍色の汐目−3","藍色の汐目−4","エピローグ　潮満ちて"];
+  var nos=["一","二","三","四","五","五","六","六","七","八","八","八","八","終"];
+  var tb=document.getElementById('toc');
+  eps.forEach(function(t,i){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td class="no">'+nos[i]+'</td><td class="t">'+t+'</td><td class="lvl"><i style="width:'+Math.round((i+1)/eps.length*100)+'%"></i></td>';
+    tb.appendChild(tr);
+  });
+
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var tide=document.getElementById('tide'),lv=document.getElementById('lv'),lvv=document.getElementById('lvv');
+  function level(){
+    var max=document.documentElement.scrollHeight-innerHeight;
+    var p=max>0?Math.min(scrollY/max,1):0;
+    tide.style.height=(12+p*46)+'vh';
+    lv.style.bottom=(p*158)+'px';
+    lvv.textContent='潮位 '+Math.round(p*100);
+  }
+  addEventListener('scroll',level,{passive:true});addEventListener('resize',level);level();
+
+  var c=document.getElementById('wave'),x=c.getContext('2d'),t=0;
+  function size(){c.width=innerWidth*devicePixelRatio;c.height=28*devicePixelRatio;}
+  size();addEventListener('resize',size);
+  function draw(){
+    var w=c.width,h=c.height;x.clearRect(0,0,w,h);
+    x.beginPath();x.moveTo(0,h);
+    for(var i=0;i<=w;i+=8){x.lineTo(i,h/2+Math.sin(i/(70*devicePixelRatio)+t)*5*devicePixelRatio+Math.sin(i/(23*devicePixelRatio)-t*1.6)*2*devicePixelRatio);}
+    x.lineTo(w,h);x.closePath();x.fillStyle='rgba(127,179,207,.28)';x.fill();
+    if(!reduce){t+=.018;requestAnimationFrame(draw);}
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
