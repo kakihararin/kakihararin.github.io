@@ -79,10 +79,18 @@ section{padding:96px 0;border-top:1px solid var(--line)}
 .sub{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:.12em;margin-bottom:8px}
 .all{display:inline-block;margin-top:32px;font-size:13px;letter-spacing:.15em;text-decoration:none;border-bottom:1px solid var(--ai);color:var(--ai);padding-bottom:4px}
 
-.forth{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
-.forth div{background:var(--paper);padding:36px 24px;display:flex;flex-direction:column;gap:14px;min-height:200px}
-.forth .t{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.06em;text-wrap:balance}
-.forth .tag{margin-top:auto;font-size:11.5px;letter-spacing:.2em;color:var(--mikan)}
+.forth{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.fc{position:relative;overflow:hidden;min-height:400px;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:28px 24px;color:#f4f2ec;isolation:isolate}
+.fc svg{position:absolute;left:0;top:-8%;width:100%;height:116%;z-index:-2;will-change:transform}
+.fc::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent 40%,rgba(10,14,20,.62))}
+.fc .t{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:.06em;text-wrap:balance;text-shadow:0 1px 12px rgba(0,0,0,.35)}
+.fc .tag{font-size:11.5px;letter-spacing:.3em;opacity:.9;border-top:1px solid rgba(244,242,236,.5);padding-top:10px}
+
+.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.lk{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px;border:1px solid var(--line);text-decoration:none;background:var(--paper);transition:border-color .3s,background .3s}
+.lk:hover,.lk:focus-visible{border-color:var(--ai);background:var(--paper-2)}
+.lk .s{font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.08em}
+.lk .h{font-size:12px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
 
 .scripts{columns:2 220px;column-gap:48px}
 .scripts li{list-style:none;break-inside:avoid;padding:14px 0;border-bottom:1px dotted var(--line);display:flex;justify-content:space-between;gap:12px}
@@ -167,9 +175,132 @@ footer .sig{font-family:var(--display);font-size:18px;color:var(--ink);letter-sp
   <section id="forthcoming" aria-labelledby="h-forth">
     <div class="sec-head"><h2 id="h-forth">準備中の作品</h2><span class="en">Forthcoming</span></div>
     <div class="forth">
-      <div><span class="t">純粋扉で夏みかん</span><span class="tag">準備中</span></div>
-      <div><span class="t">ふか</span><span class="tag">準備中</span></div>
-      <div><span class="t">そこに荔枝があっただけ</span><span class="tag">準備中</span></div>
+      <div class="fc">
+        <!-- みかん畑の段々に囲まれた野球場と、その隣の旅館。二階の壁に、どこにも出られない扉がひとつ -->
+        <svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <linearGradient id="jsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fb6d6"/><stop offset=".6" stop-color="#cfe4ec"/><stop offset="1" stop-color="#f3e6c6"/></linearGradient>
+            <pattern id="jgrove" width="14" height="10" patternUnits="userSpaceOnUse">
+              <circle cx="4" cy="5" r="4" fill="#3f6b3a"/><circle cx="11" cy="4" r="3.6" fill="#4a7a42"/>
+              <circle cx="3" cy="4" r="1.1" fill="#ec9a2c"/><circle cx="12" cy="6" r="1" fill="#f0a83a"/><circle cx="6" cy="7" r=".9" fill="#e48e22"/>
+            </pattern>
+            <pattern id="jtile" width="8" height="5" patternUnits="userSpaceOnUse"><rect width="8" height="5" fill="#4a5258"/><path d="M0 4.5 H8" stroke="#2f363b" stroke-width="1"/><path d="M4 0 V5" stroke="#3a4146" stroke-width=".6"/></pattern>
+          </defs>
+          <rect width="300" height="420" fill="url(#jsky)"/>
+          <rect y="118" width="300" height="10" fill="#4c86ab" opacity=".75"/>
+          <!-- 段々畑 -->
+          <path d="M0 128 Q80 112 170 122 T300 116 V200 H0Z" fill="#6f9a5c"/>
+          <path d="M0 140 Q90 126 180 134 T300 128 V160 Q200 152 100 160 T0 162Z" fill="url(#jgrove)"/>
+          <path d="M0 160 Q90 150 170 156 T300 150" stroke="#b49a6c" stroke-width="2" fill="none"/>
+          <path d="M0 164 Q100 156 190 162 T300 156 V190 Q200 182 100 190 T0 192Z" fill="url(#jgrove)"/>
+          <path d="M0 192 Q100 184 190 190 T300 184" stroke="#b49a6c" stroke-width="2" fill="none"/>
+          <path d="M0 196 H300 V226 H0Z" fill="url(#jgrove)"/>
+          <g transform="translate(0 -46)">
+          <!-- 野球場 -->
+          <path d="M-10 236 L300 226 V330 H-10Z" fill="#5f9150"/>
+          <path d="M30 312 L96 262 L162 300 L96 336Z" fill="#c69a68"/>
+          <path d="M30 312 L96 262 L162 300 L96 336Z" fill="none" stroke="#f3efe4" stroke-width="1.6"/>
+          <circle cx="96" cy="300" r="5" fill="#c69a68"/>
+          <g stroke="#7a7f80" stroke-width="1" opacity=".85"><path d="M8 300 V250 M48 296 V246"/><path d="M8 250 L48 246" /></g>
+          <rect x="8" y="250" width="40" height="48" fill="#9aa0a0" opacity=".25"/>
+          <!-- 旅館 -->
+          <g transform="translate(156 170)">
+            <path d="M-8 34 L65 6 L138 34Z" fill="url(#jtile)"/>
+            <rect x="0" y="34" width="130" height="58" fill="#efe7d6"/>
+            <path d="M0 34 H130 M0 62 H130 M0 92 H130" stroke="#7a5638" stroke-width="2"/>
+            <path d="M0 34 V92 M43 34 V92 M87 34 V92 M130 34 V92" stroke="#7a5638" stroke-width="2"/>
+            <path d="M-10 92 L140 92 L130 102 L0 102Z" fill="url(#jtile)"/>
+            <rect x="0" y="102" width="130" height="60" fill="#efe7d6"/>
+            <path d="M0 102 V162 M65 102 V162 M130 102 V162" stroke="#7a5638" stroke-width="2"/>
+            <rect x="12" y="114" width="40" height="36" fill="#d9c9a6"/><path d="M12 132 H52 M32 114 V150" stroke="#9b7c58" stroke-width="1"/>
+            <rect x="76" y="118" width="44" height="44" fill="#5a4636"/>
+            <rect x="80" y="104" width="40" height="11" fill="#2e3b4a"/><text x="100" y="112.5" fill="#efe7d6" font-size="7" text-anchor="middle" font-family="serif">旅 館</text>
+            <!-- 二階の壁の、外へ開くだけの扉 -->
+            <rect x="52" y="42" width="24" height="44" fill="#6b4a33"/>
+            <rect x="55" y="45" width="18" height="38" fill="#80593d"/>
+            <circle cx="70" cy="66" r="1.6" fill="#e3b85a"/>
+            <path d="M48 86 H80" stroke="#5a3f2b" stroke-width="2.5"/>
+            <rect x="10" y="44" width="28" height="14" fill="#d9c9a6"/><rect x="92" y="44" width="28" height="14" fill="#d9c9a6"/>
+          </g>
+          </g>
+          <rect y="284" width="300" height="136" fill="#5f9150"/>
+          <rect y="300" width="300" height="120" fill="url(#jgrove)" opacity=".9"/>
+        </svg>
+        <span class="t">純粋扉で夏みかん</span><span class="tag">準備中</span>
+      </div>
+      <div class="fc">
+        <!-- 水面の下から見上げた海。光の筋と、波間にうかぶ一羽の海鳥 -->
+        <svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <linearGradient id="fsea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6d8ea0"/><stop offset=".22" stop-color="#2f5468"/><stop offset=".7" stop-color="#14283a"/><stop offset="1" stop-color="#0a141f"/></linearGradient>
+            <linearGradient id="fray" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3eef2" stop-opacity=".35"/><stop offset="1" stop-color="#e3eef2" stop-opacity="0"/></linearGradient>
+          </defs>
+          <rect width="300" height="420" fill="url(#fsea)"/>
+          <path d="M0 74 Q25 68 50 74 T100 74 T150 74 T200 74 T250 74 T300 74" stroke="#c9dde5" stroke-width="1.4" fill="none" opacity=".7"/>
+          <polygon points="70,76 98,76 60,420 10,420" fill="url(#fray)"/>
+          <polygon points="150,76 168,76 190,420 140,420" fill="url(#fray)"/>
+          <polygon points="228,76 246,76 300,360 260,420" fill="url(#fray)" opacity=".7"/>
+          <g transform="translate(176 58)">
+            <ellipse cx="0" cy="12" rx="14" ry="6" fill="#1b2630"/>
+            <circle cx="12" cy="6" r="5" fill="#1b2630"/>
+            <path d="M16 6 l6 1 -6 1z" fill="#1b2630"/>
+            <ellipse cx="-2" cy="16" rx="12" ry="3" fill="#0f1a24" opacity=".6"/>
+          </g>
+          <g fill="#cfe2ea" opacity=".45"><circle cx="60" cy="300" r="2"/><circle cx="66" cy="276" r="1.4"/><circle cx="58" cy="250" r="1"/><circle cx="210" cy="340" r="1.6"/><circle cx="214" cy="318" r="1"/></g>
+        </svg>
+        <span class="t">ふか</span><span class="tag">準備中</span>
+      </div>
+      <div class="fc">
+        <!-- 枝についた荔枝。でこぼこの赤い皮と、剥いた実の半透明の白。下には土のグラウンドと白線 -->
+        <svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <filter id="lbump" x="-10%" y="-10%" width="120%" height="120%">
+              <feTurbulence type="fractalNoise" baseFrequency=".42" numOctaves="2" seed="7" result="n"/>
+              <feDiffuseLighting in="n" surfaceScale="1.6" lighting-color="#ffe2dc" result="lit"><feDistantLight azimuth="235" elevation="52"/></feDiffuseLighting>
+              <feComposite in="SourceGraphic" in2="lit" operator="arithmetic" k1=".7" k2=".45" k3="0" k4="0" result="mix"/>
+              <feComposite in="mix" in2="SourceAlpha" operator="in"/>
+            </filter>
+            <filter id="lsoft"><feGaussianBlur stdDeviation="3.5"/></filter>
+            <radialGradient id="lskin" cx=".36" cy=".32" r=".75"><stop offset="0" stop-color="#ef7a6f"/><stop offset=".45" stop-color="#c8384a"/><stop offset=".85" stop-color="#8a1d2f"/><stop offset="1" stop-color="#5e1222"/></radialGradient>
+            <radialGradient id="lskin2" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#e58a62"/><stop offset=".5" stop-color="#b8443c"/><stop offset="1" stop-color="#6a1a22"/></radialGradient>
+            <radialGradient id="lflesh" cx=".38" cy=".3" r=".8"><stop offset="0" stop-color="#fffef8"/><stop offset=".4" stop-color="#f6f2e4"/><stop offset=".85" stop-color="#e6e3cf"/><stop offset="1" stop-color="#cfcdb4"/></radialGradient>
+            <linearGradient id="lground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b2e22"/><stop offset=".45" stop-color="#7d5c3e"/><stop offset="1" stop-color="#a47a52"/></linearGradient>
+            <linearGradient id="lleaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3f6e3f"/><stop offset="1" stop-color="#1f3d26"/></linearGradient>
+          </defs>
+          <rect width="300" height="420" fill="url(#lground)"/>
+          <g filter="url(#lsoft)" opacity=".9">
+            <path d="M-20 420 L320 120" stroke="#efe9db" stroke-width="12"/>
+            <ellipse cx="60" cy="40" rx="120" ry="60" fill="#1d3322"/>
+            <ellipse cx="260" cy="60" rx="90" ry="50" fill="#243c28"/>
+          </g>
+          <!-- 葉 -->
+          <g>
+            <path d="M40 18 Q110 -6 168 44 Q104 58 40 18Z" fill="url(#lleaf)"/><path d="M44 19 Q110 22 166 44" stroke="#7aa070" stroke-width="1.2" fill="none" opacity=".7"/>
+            <path d="M150 30 Q226 2 284 48 Q214 66 150 30Z" fill="url(#lleaf)"/><path d="M154 31 Q220 34 282 48" stroke="#7aa070" stroke-width="1.2" fill="none" opacity=".7"/>
+            <path d="M178 54 Q250 62 290 116 Q226 114 178 54Z" fill="url(#lleaf)" opacity=".95"/><path d="M180 56 Q240 82 288 115" stroke="#7aa070" stroke-width="1" fill="none" opacity=".6"/>
+          </g>
+          <!-- 枝と果柄 -->
+          <path d="M162 40 Q158 80 140 120 M160 60 Q186 98 190 130 M150 84 Q128 128 110 160 M168 70 Q196 150 222 186" stroke="#5c4128" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M140 120 l0 10 M190 130 l1 9 M110 160 l-2 9 M222 186 l2 9" stroke="#5c4128" stroke-width="2.2"/>
+          <!-- 実 -->
+          <g filter="url(#lbump)">
+            <path d="M140 128 C163 128 170 150 168 166 C166 186 152 196 140 196 C126 196 112 186 111 166 C110 148 118 128 140 128Z" fill="url(#lskin)"/>
+            <path d="M191 138 C212 138 218 158 216 172 C214 190 202 198 191 198 C178 198 166 190 165 172 C164 156 172 138 191 138Z" fill="url(#lskin2)"/>
+            <path d="M107 168 C128 168 134 188 132 202 C130 220 118 228 107 228 C94 228 82 220 81 202 C80 186 88 168 107 168Z" fill="url(#lskin)"/>
+            <path d="M223 194 C242 194 247 212 246 225 C244 242 233 249 223 249 C211 249 200 242 199 225 C198 210 206 194 223 194Z" fill="url(#lskin2)"/>
+          </g>
+          <!-- 剥いた荔枝：割れた皮の上に、半透明の白い実 -->
+          <g transform="translate(206 330)">
+            <ellipse cx="0" cy="26" rx="44" ry="8" fill="#2a1d14" opacity=".45"/>
+            <g filter="url(#lbump)"><path d="M-36 6 Q-30 30 0 32 Q30 30 36 6 Q22 14 0 14 Q-22 14 -36 6Z" fill="url(#lskin)"/></g>
+            <path d="M-34 7 Q0 20 34 7" stroke="#f1e6dc" stroke-width="2" fill="none" opacity=".8"/>
+            <path d="M0 -30 C18 -30 25 -12 24 0 C23 14 12 20 0 20 C-12 20 -23 14 -24 0 C-25 -12 -18 -30 0 -30Z" fill="url(#lflesh)" opacity=".96"/>
+            <path d="M-8 -22 C-2 -26 8 -24 12 -16" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>
+            <path d="M-14 -4 C-12 6 -4 12 4 13" stroke="#c6ccbd" stroke-width="1" fill="none" opacity=".7"/>
+          </g>
+        </svg>
+        <span class="t">そこに荔枝があっただけ</span><span class="tag">準備中</span>
+      </div>
     </div>
   </section>
 
@@ -194,6 +325,16 @@ footer .sig{font-family:var(--display);font-size:18px;color:var(--ink);letter-sp
         <dt>選考</dt><dd>第4回ステキブンゲイ大賞 最終候補</dd>
         <dt>脚本</dt><dd>朗読劇・ボイスドラマ脚本を多数執筆</dd>
       </dl>
+    </div>
+  </section>
+
+  <section id="links" aria-labelledby="h-links">
+    <div class="sec-head"><h2 id="h-links">リンク</h2><span class="en">Links</span></div>
+    <div class="links">
+      <a class="lk" href="https://mypage.syosetu.com/37666/"><span class="s">小説家になろう</span><span class="h">作者ページ</span></a>
+      <a class="lk" href="https://kakuyomu.jp/users/kakihararin/works"><span class="s">カクヨム</span><span class="h">作品一覧</span></a>
+      <a class="lk" href="https://sutekibungei.com/users/kakiharalin"><span class="s">ステキブンゲイ</span><span class="h">作者ページ</span></a>
+      <a class="lk" href="https://x.com/kakiharalin"><span class="s">X</span><span class="h">@kakiharalin</span></a>
     </div>
   </section>
 </main>
@@ -223,7 +364,14 @@ footer .sig{font-family:var(--display);font-size:18px;color:var(--ink);letter-sp
     });
     var k = chars[chars.length - 1];
     k.style.transform = 'translateY(' + (h * 120) + 'px)';
+    // 準備中の三作：絵がカードの中でゆっくり動き、窓の向こうの景色のように見える
+    arts.forEach(function(a){
+      var r = a.parentNode.getBoundingClientRect();
+      var c = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+      a.style.transform = 'translateY(' + (c * -28) + 'px)';
+    });
   }
+  var arts = Array.prototype.slice.call(document.querySelectorAll('.fc svg'));
   addEventListener('scroll', onScroll, {passive:true});
   addEventListener('resize', onScroll);
   onScroll();
